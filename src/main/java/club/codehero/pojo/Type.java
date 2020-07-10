@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Description
@@ -25,4 +27,7 @@ public class Type implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "type")//放弃外键维护
+    private List<Blog> blogs=new ArrayList<>();
 }

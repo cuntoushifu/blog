@@ -2,6 +2,9 @@ package club.codehero.pojo;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +28,7 @@ public class Tag implements Serializable {
 
     @Column(name = "name" )
     private String name;
+
+    @ManyToMany(mappedBy = "tags")
+    private Set<Blog> blogs = new HashSet<>();
 }
