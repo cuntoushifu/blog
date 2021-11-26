@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class LogAop {
 
-    private RequestLog requestLog=new RequestLog();
+    private RequestLog requestLog = new RequestLog();
 
     @Pointcut("execution(* club.codehero.controller.*.*(..))")
     public void pointcut() {

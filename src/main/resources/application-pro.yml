@@ -1,21 +1,55 @@
 spring:
+
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/myblog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
     username: root
-    password: root
+    password: yy03091208
 
   jpa:
     hibernate:
-      ddl-auto: none
-    show-sql: true
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+  thymeleaf:
+    cache: true
+    mode: HTML
+    suffix: .html
+#  redis:
+#    port: 6379
+#    host: localhost
+#    lettuce:
+#      pool:
+#        max-active: 300
+#        min-idle: 10
+#        max-wait: -1ms
+#    timeout: 1200000000ms
 
+
+
+
+#  cache:
+#    redis:
+#      cache-null-values: true
+#    type: redis
+
+#logging:
+#  level:
+#    root: error
+#    club.codehero: error
+#  file:
+#    name: log/blog-pro.log
+#
+#logging:
+#  level:
+#    root: info
+#    club.codehero: debug
+#  file:
+#    name: log/blog-dev.log
+server:
+  port: 9999
 logging:
   level:
     root: warn
     club.codehero: info
-  file:
-    name: log/blog-pro.log
-
-server:
-  port: 9099
+  file: log/blog-pro.log

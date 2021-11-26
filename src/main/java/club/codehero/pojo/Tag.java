@@ -1,34 +1,38 @@
 package club.codehero.pojo;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * @Description
  * @Author YangYe
- * @Date 2020-07-10 
+ * @Date 2020-07-10
  */
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor(force = true)
 @Entity
-@Table ( name ="t_tag")
+@Table(name = "t_tag")
 public class Tag implements Serializable {
 
 
     @Id
-    @Column(name = "id" )
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name" )
+    @Column(name = "name")
+    @NotBlank(message = "数据不合法,标签名不能为空")
     private String name;
 
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
     private Set<Blog> blogs = new HashSet<>();
 }

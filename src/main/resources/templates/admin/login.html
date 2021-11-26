@@ -3,27 +3,23 @@
 <head th:replace="admin/_fragments :: head(~{:: title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>博客后台登录</title>
+    <title>登录</title>
     <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="../../static/css/my.css">
 </head>
 
 <body>
-
 <br/>
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
-
 <div class="m-container-small m-padded-tb-massive" style="max-width: 30em!important;">
     <div class="ui container">
         <div class="ui middle aligned center aligned grid">
             <div class="column">
                 <h2 class="ui teal image header">
-                    <img src="../../static/image/head.jpg"  th:src="@{/image/head.jpg}" class="image">
+                    <img src="https://cdn.jsdelivr.net/gh/zsq472521/mypic/blog/20200721194614.jpg"  th:src="@{/image/head.jpg}" class="image">
                     <div class="content">
                         管理后台登录
                     </div>
@@ -44,12 +40,10 @@
                         </div>
                         <button class="ui fluid large teal submit button">登 录</button>
                     </div>
-
                     <div class="ui error  mini message"></div>
                     <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">
                         用户名和密码错误
                     </div>
-
                 </form>
 
             </div>
@@ -59,7 +53,7 @@
 
 
 
-<!--/*/<th:block th:replace="_fragments :: script" >/*/-->
+<!--/*/<th:block th:replace="admin/_fragments :: script" >/*/-->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
 <!--/*/</th:block >/*/-->

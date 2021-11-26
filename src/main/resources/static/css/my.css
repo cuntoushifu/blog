@@ -3,7 +3,7 @@ body{
 }
 
 .m-padded-top-small{
-    padding-top: 0.5em;
+    padding-top: 0.5em!important;
 }
 .m-padded-mini {
     padding: 0.2em !important;
@@ -54,6 +54,7 @@ body{
     padding-bottom: 4em !important;
 }
 
+
 .m-padded-tb-massive {
     padding-top: 5em !important;
     padding-bottom: 5em !important;
@@ -70,12 +71,16 @@ body{
     line-height: 1.8 !important;
 }
 
+
 .m-text-thin {
     font-weight: 300 !important;
 }
 
 .m-text-spaced {
     letter-spacing: 1px !important;
+}
+.m-text-spaced-more {
+    letter-spacing: 2px !important;
 }
 
 .m-text-lined {
@@ -144,6 +149,10 @@ body{
 /*----------颜色----------*/
 .m-black {
     color: #333 !important;
+
+}
+.m-teal {
+    color: #00B5AD !important;
 
 }
 

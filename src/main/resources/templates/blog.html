@@ -3,23 +3,54 @@
 <head th:replace="_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>首页</title>
-    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css" >
+    <title>[[${blog.title}]]</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/typo.css">
+    <link rel="stylesheet" href="../static/css/animate.css">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css">
     <link rel="stylesheet" href="../static/css/my.css">
 </head>
 <style>
-    code{ color:#1abc9c; }
-    #fork{ position:absolute; top:0; right:0; _position:absolute;z-index: 1; }
-    #table{ margin-bottom:2em; color:#888; }
-    #github{ position:absolute;top:1em;}
-    #github iframe{ display:inline;margin-right:1em; }
+    code {
+        color: #1abc9c;
+    }
+
+    #fork {
+        position: absolute;
+        top: 0;
+        right: 0;
+        _position: absolute;
+        z-index: 1;
+    }
+
+    #table {
+        margin-bottom: 2em !important;
+        color: #888 !important;
+    }
+
+    #github {
+        position: absolute;
+        top: 1em;
+    }
+
+    #github iframe {
+        display: inline;
+        margin-right: 1em;
+    }
 
     @media only screen and (max-width: 640px) {
-        table{ word-break:break-all;word-wrap:break-word;font-size:12px; }
-        .typo table th, .typo table td, .typo-table th, .typo-table td .typo table caption {
-            padding: 0.5em;
+        table {
+            word-break: break-all;
+            word-wrap: break-word;
+            font-size: 12px;
         }
+
+        .typo table th, .typo table td, .typo-table th, .typo-table td .typo table caption {
+            padding: 0.5em !important;
+        }
+
         /*#fork{ display:none; }*/
     }
 </style>
@@ -30,7 +61,7 @@
     <div class="ui container">
         <div class="ui inverted  secondary stackable menu ">
             <h2 class="ui teal header item">Code Hero</h2>
-            <a href="#" class="m-item item m-mobile-hide"><i class="home icon" ></i> 首页</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i> 首页</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i> 分类</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i> 标签</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="clone icon"></i> 归档</a>
@@ -52,540 +83,160 @@
 <!--中间内容-->
 <div id="waypoint" class="m-container-small m-padded-tb-big animated fadeIn">
 
-    <div class="ui container" style="position:relative!important;">
+    <div class="ui m-container" style="position:relative!important;">
         <!--GitHub-->
-        <a  id="fork" class="animated pulse">
-            <img alt="Fork me on GitHub"  onclick="window.open('http://yegege.xyz','_blank')" src="../static/image/github/right/gray.png">
+        <a id="fork" class="animated pulse">
+            <img alt="Fork me on GitHub" onclick="window.open('https://github.com/zsq472521','_blank')"
+                 src="../static/image/github/right/gray.png" th:src="@{/image/github/right/gray.png}">
         </a>
         <div class="ui top attached segment">
             <div class="ui horizontal link list">
                 <div class="item ">
-                    <img src="../static/image/head.jpg" alt="" class="ui avatar image"/>
-                    <div class="content"><a href="#" class="header">CodeHero</a></div>
+                    <img src="../static/image/head.jpg" alt="" th:src="@{${blog.user.avatar}}" class="ui avatar image"/>
+                    <div class="content"><a href="#" th:text="${blog.user.nickname}" class="header">CodeHero</a></div>
                 </div>
 
                 <div class="item">
-                    <i class="calendar icon"></i> 2020-7-5
+                    <i class="calendar icon"></i>
+                    <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-7-5</span>
                 </div>
                 <div class="item">
-                    <i class="eye icon">200</i>
+                    <i class="eye icon"></i><span th:text="${blog.views}">200</span>
                 </div>
             </div>
 
         </div>
         <!--图片区域-->
-        <div class="ui attached segment  " >
-            <img src="https://picsum.photos/800/450" alt="" class="ui fluid rounded image ">
-        </div >
+        <div class="ui attached segment  ">
+            <img src="https://cdn.jsdelivr.net/gh/zsq472521/mypic/blog/20200714121302.jpg"
+                 th:src="@{${blog.firstPicture}}" alt="" class="ui fluid rounded image ">
+        </div>
         <div class="ui attached  padded segment">
             <!--内容-->
             <div class="ui right aligned basic segment">
-                <div class="ui orange basic label">原创</div>
+                <div class="ui orange basic label" th:text="${blog.flag}">原创</div>
             </div>
-
-            <h2 class="ui center aligned header">用Java操作Redis数据库</h2>
+            <h2 class="ui center aligned header" th:text="${blog.title}">用Java操作Redis数据库</h2>
             <br/>
-
-
-            <div id="content" class="typo typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large ">
-
-
-
-                <ol id="table">
-                    <li><a href="#section1">关于 <i class="serif">Typo.css</i></a></li>
-                    <li><a href="#section2">排版实例</a>
-                        <ul>
-                            <li><a href="#section2-1">例1：论语学而篇第一</a></li>
-                            <li><a href="#section2-2">例2：英文排版</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#section3">附录</a>
-                        <ul>
-                            <li><a href="#appendix1"><i class="serif">Typo.css</i> 排版偏重点</a></li>
-                            <li><a href="#appendix2">开源许可</a></li>
-                        </ul>
-                    </li>
-                </ol>
-
-                <h2 id="section1">一、关于 <i class="serif">Typo.css</i></h2>
-
-                <p><i class="serif">Typo.css</i> 的目的是，在一致化浏览器排版效果的同时，构建最适合中文阅读的网页排版。</p>
-                <h4>现状和如何去做：</h4>
-
-                <p class="typo-first">排版是一个麻烦的问题 <sup><a href="#appendix1"># 附录一</a></sup>，需要精心设计，而这个设计却是常被视觉设计师所忽略的。前端工程师更常看到这样的问题，但不便变更。因为在多个 OS 中的不同浏览器渲染不同，改动需要多的时间做回归测试，所以改变变得更困难。而像我们一般使用的
-                    Yahoo、Eric Meyer 和 Alice base.css 中采用的 Reset 都没有很好地考虑中文排版。<i class="serif">Typo.css</i> 要做的就是解决中文排版的问题。</p>
-
-                <p><strong><i class="serif">Typo.css</i> 测试于如下平台：</strong></p>
-                <table summary="Typo.css 的测试平台列表">
-                    <thead>
-                    <tr>
-                        <th>OS/浏览器</th>
-                        <th>Firefox</th>
-                        <th>Chrome</th>
-                        <th>Safari</th>
-                        <th>Opera</th>
-                        <th>IE9</th>
-                        <th>IE8</th>
-                        <th>IE7</th>
-                        <th>IE6</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>OS X</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Win 7</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Win XP</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>-</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                    </tr>
-                    <tr>
-                        <td>Ubuntu</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td>-</td>
-                        <td>✔</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <h4>中文排版的重点和难点</h4>
-
-                <p>在中文排版中，HTML4 的很多标准在语义在都有照顾到。但从视觉效果上，却很难利用单独的 CSS 来实现，像<abbr title="在文字下多加一个点">着重号</abbr>（例：这里<em class="typo-em">强调一下</em>）。在 HTML4 中，专名号标签（<code>&lt;u&gt;</code>）已经被放弃，而
-                    HTML5 被<a href="http://html5doctor.com/u-element/">重新提起</a>。<i class="serif">Typo.css</i> 也根据实际情况提供相应的方案。我们重要要注意的两点是：</p>
-                <ol>
-                    <li>语义：语义对应的用法和样式是否与中文排版一致</li>
-                    <li>表现：在各浏览器中的字体、大小和缩放是否如排版预期</li>
-                </ol>
-                <p>对于这些，<i class="serif">Typo.css</i> 排版项目的中文偏重注意点，都添加在附录中，详见：</p>
-                <blockquote>
-                    <b>附录一</b>：<a href="#appendix1"><i class="serif">Typo.css</i> 排版偏重点</a>
-                </blockquote>
-
-                <p>目前已有像百姓网等全面使用 <i class="serif">Typo.css</i> 的项目，测试平台的覆盖，特别是在<abbr title="手机、平板电脑等移动平台">移动端</abbr>上还没有覆盖完主流平台，希望有能力的同学能加入测试行列，或者加入到 <i class="serif">Typo.css</i>
-                    的开发。加入方法：<a href="https://github.com/sofish/Typo.css">参与 <i class="serif">Typo.css</i> 开发</a>。如有批评、建议和意见，也随时欢迎给在 Github 直接提 <a
-                            href="https://github.com/sofish/Typo.css/issues">issues</a>，或给<abbr title="Sofish Lin, author of Typo.css"
-                                                                                                role="author">我</abbr>发<a
-                            href="mailto:sofish@icloud.com">邮件</a>。</p>
-
-
-                <h2 id="section2">二、排版实例：</h2>
-
-                <p>提供2个排版实例，第一个中文实例来自于来自于<cite class="typo-unique">张燕婴</cite>的《论语》，由于古文排版涉及到的元素比较多，所以采用《论语》中《学而》的第一篇作为排版实例介绍；第2个来自到经典的
-                    Lorem Ipsum，并加入了一些代码和列表等比较具有代表性的排版元素。</p>
-
-                <h3 id="section2-1">例1：论语学而篇第一</h3>
-
-                <p>
-                    <small><b>作者：</b><abbr title="名丘，字仲尼">孔子</abbr>（
-                        <time>前551年9月28日－前479年4月11日</time>
-                        ）
-                    </small>
-                </p>
-
-                <h4>本篇引语</h4>
-
-                <p>
-                    《学而》是《论语》第一篇的篇名。《论语》中各篇一般都是以第一章的前二三个字作为该篇的篇名。《学而》一篇包括16章，内容涉及诸多方面。其中重点是「吾日三省吾身」；「节用而爱人，使民以时」；「礼之用，和为贵」以及仁、孝、信等道德范畴。 </p>
-
-                <h4>原文</h4>
-
-                <p>子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知，而不愠，不亦君子乎？」 </p>
-
-                <h4>译文</h4>
-
-                <p>孔子说：「学了又时常温习和练习，不是很愉快吗？有志同道合的人从远方来，不是很令人高兴的吗？人家不了解我，我也不怨恨、恼怒，不也是一个有德的君子吗？」 </p>
-
-                <h4>评析</h4>
-
-                <p>宋代著名学者<u class="typo-u">朱熹</u>对此章评价极高，说它是「入道之门，积德之基」。本章这三句话是人们非常熟悉的。历来的解释都是：学了以后，又时常温习和练习，不也高兴吗等等。三句话，一句一个意思，前后句子也没有什么连贯性。但也有人认为这样解释不符合原义，指出这里的「学」不是指学习，而是指学说或主张；「时」不能解为时常，而是时代或社会的意思，「习」不是温习，而是使用，引申为采用。而且，这三句话不是孤立的，而是前后相互连贯的。这三句的意思是：自己的学说，要是被社会采用了，那就太高兴了；退一步说，要是没有被社会所采用，可是很多朋友赞同<abbr
-                        title="张燕婴">我</abbr>的学说，纷纷到我这里来讨论问题，我也感到快乐；再退一步说，即使社会不采用，人们也不理解我，我也不怨恨，这样做，不也就是君子吗？（见《齐鲁学刊》1986年第6期文）这种解释可以自圆其说，而且也有一定的道理，供读者在理解本章内容时参考。
-                </p>
-
-                <p>此外，在对「人不知，而不愠」一句的解释中，也有人认为，「人不知」的后面没有宾语，人家不知道什么呢？当时因为孔子有说话的特定环境，他不需要说出知道什么，别人就可以理解了，却给后人留下一个谜。有人说，这一句是接上一句说的，从远方来的朋友向我求教，我告诉他，他还不懂，我却不怨恨。这样，「人不知」就是「人家不知道我所讲述的」了。这样的解释似乎有些牵强。</p>
-
-                <p>总之，本章提出以学习为乐事，做到人不知而不愠，反映出孔子学而不厌、诲人不倦、注重修养、严格要求自己的主张。这些思想主张在《论语》书中多处可见，有助于对第一章内容的深入了解。</p>
-
-                <h3 id="section2-2">例2：英文排版</h3>
-
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-                    type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                    passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem
-                    Ipsum.</p>
-                <blockquote>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </blockquote>
-
-                <h4>The standard Lorem Ipsum passage, used since the 1500s</h4>
-
-                <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-
-                <h4>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</h4>
-
-                <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
-                    eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-                    voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-                    voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
-                    velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim
-                    ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-                    consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur,
-                    vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-
-                <h4>List style in action</h4>
-                <ul>
-                    <li>If you wish to succeed, you should use persistence as your good friend, experience as your reference, prudence as
-                        your brother and hope as your sentry.
-                        <p>如果你希望成功，当以恒心为良友，以经验为参谋，以谨慎为兄弟，以希望为哨兵。</p>
-                    </li>
-                    <li>Sometimes one pays most for the things one gets for nothing.
-                        <p>有时候一个人为不花钱得到的东西付出的代价最高。</p>
-                    </li>
-                    <li>Only those who have the patience to do simple things perfectly ever acquire the skill to do difficult things
-                        easily.
-                        <p>只有有耐心圆满完成简单工作的人，才能够轻而易举的完成困难的事。</p>
-                    </li>
-                </ul>
-
-                <h4>You may want to create a perfect <code>&lt;hr /&gt;</code> line, despite the fact that there will never have one
-                </h4>
-                <hr/>
-                <p><abbr title="法国作家罗切福考尔德">La Racheforcauld</abbr> said:
-                    <mark>"Few things are impossible in themselves; and it is often for want of will, rather than of means, that man fails
-                        to succeed".
-                    </mark>
-                    You just need to follow the browser's behavior, and set a right <code>margin</code> to it。it will works nice as the
-                    demo you're watching now. The following code is the best way to render typo in Chinese:
-                </p>
-                <pre><code class="language-css">p { color: red }
-/* 标题应该更贴紧内容，并与其他块区分，margin 值要相应做优化 */
-h1,h2,h3,h4,h5,h6 {
-    line-height:1;font-family:Arial,sans-serif;margin:1.4em 0 0.8em;
-}
-h1{font-size:1.8em;}
-h2{font-size:1.6em;}
-h3{font-size:1.4em;}
-h4{font-size:1.2em;}
-h5,h6{font-size:1em;}
-
-/* 现代排版：保证块/段落之间的空白隔行 */
-.typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr {
-    margin:1em 0 0.6em;
-}
-                    </code>
-</pre>
-
-                <h2 id="section3">三、附录</h2>
-
-                <h5 id="appendix1">1、<i class="serif">Typo.css</i> 排版偏重点</h5>
-                <table summary="Typo.css 排版偏重点">
-                    <thead>
-                    <tr>
-                        <th>类型</th>
-                        <th>语义</th>
-                        <th>标签</th>
-                        <th>注意点</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th rowspan="15">基础标签</th>
-                        <td>标题</td>
-                        <td><code>h1</code> ～ <code>h6</code></td>
-                        <td>全局不强制大小，<code>.typo</code> 中标题与其对应的内容应紧贴，并且有相应的大小设置</td>
-                    </tr>
-                    <tr>
-                        <td>上、下标</td>
-                        <td><code>sup</code>/<code>sub</code></td>
-                        <td>保持与 MicroSoft Office Word 等程序的日常排版一致</td>
-                    </tr>
-                    <tr>
-                        <td>引用</td>
-                        <td><code>blockquote</code></td>
-                        <td>显示/嵌套样式</td>
-                    </tr>
-                    <tr>
-                        <td>缩写</td>
-                        <td><code>abbr</code></td>
-                        <td>是否都有下划线，鼠标 <code>hover</code> 是否为帮助手势</td>
-                    </tr>
-                    <tr>
-                        <td>分割线</td>
-                        <td><code>hr</code></td>
-                        <td>显示的 <code>padding</code> 和 <code>margin</code>正确</td>
-                    </tr>
-                    <tr>
-                        <td>列表</td>
-                        <td><code>ul</code>/<code>ol</code>/<code>dl</code></td>
-                        <td>在全局没有 <code>list-style</code>，在 .<code>typo</code> 中对齐正确</td>
-                    </tr>
-                    <tr>
-                        <td>定义列表</td>
-                        <td><code>dl</code></td>
-                        <td>全局 <code>padding</code> 和 <code>margin</code>为0， .<code>typo</code> 中对齐正确</td>
-                    </tr>
-                    <tr>
-                        <td>选项</td>
-                        <td><code>input[type=radio[, checkbox]]</code></td>
-                        <td>与其他 <code>form</code> 元素排版时是否居中</td>
-                    </tr>
-                    <tr>
-                        <td>斜体</td>
-                        <td><code>i</code></td>
-                        <td>只设置一种斜体，让 <code>em</code> 和 <code>cite</code> 显示为正体</td>
-                    </tr>
-                    <tr>
-                        <td>强调</td>
-                        <td><code>em</code></td>
-                        <td>在全局显示正体，在 <code>.typo</code> 中显示与 <code>b</code> 和 <code>strong</code> 的样式一致，为粗体</td>
-                    </tr>
-                    <tr>
-                        <td>加强</td>
-                        <td><code>strong/b</code></td>
-                        <td>显示为粗体</td>
-                    </tr>
-                    <tr>
-                        <td>标记</td>
-                        <td><code>mark</code></td>
-                        <td>类似荧光笔</td>
-                    </tr>
-                    <tr>
-                        <td>印刷</td>
-                        <td><code>small</code></td>
-                        <td>保持为正确字体的 80% 大小，颜色设置为浅灰色</td>
-                    </tr>
-                    <tr>
-                        <td>表格</td>
-                        <td><code>table</code></td>
-                        <td>全局不显示线条，在 <code>table</code> 中显示表格外框，并且表头有浅灰背景</td>
-                    </tr>
-                    <tr>
-                        <td>代码</td>
-                        <td><code>pre</code>/<code>code</code></td>
-                        <td>字体使用 <code>courier</code> 系字体，保持与 <code>serif</code> 有比较一致的显示效果</td>
-                    </tr>
-                    <tr>
-                        <th rowspan="5">特殊符号</th>
-                        <td>着重号</td>
-                        <td><em class="typo-em">在文字下加点</em></td>
-                        <td>在支持 <code>:after</code> 和 <code>:before</code> 的浏览器可以做渐进增强实现</td>
-                    </tr>
-                    <tr>
-                        <td>专名号</td>
-                        <td><u>林建锋</u></td>
-                        <td>专名号，有下划线，使用 <code>u</code> 或都 <code>.typo-u</code> 类</td>
-                    </tr>
-                    <tr>
-                        <td>破折号</td>
-                        <td>——</td>
-                        <td>保持一划，而非两划</td>
-                    </tr>
-                    <tr>
-                        <td>人民币</td>
-                        <td>&yen;</td>
-                        <td>使用两平等线的符号，或者 HTML 实体符号 <code>&amp;yen;</code></td>
-                    </tr>
-                    <tr>
-                        <td>删除符</td>
-                        <td>
-                            <del>已删除（deleted）</del>
-                        </td>
-                        <td>一致化各浏览器显示，中英混排正确</td>
-                    </tr>
-                    <tr>
-                        <th rowspan="3">加强类</th>
-                        <td>专名号</td>
-                        <td><code>.typo-u</code></td>
-                        <td>由于 <code>u</code> 被 HTML4 放弃，在向后兼容上推荐使用 <code>.typo-u</code></td>
-                    </tr>
-                    <tr>
-                        <td>着重符</td>
-                        <td><code>.typo-em</code></td>
-                        <td>利用 <code>:after</code> 和 <code>:before</code> 实现着重符</td>
-                    </tr>
-                    <tr>
-                        <td>清除浮动</td>
-                        <td><code>.clearfix</code></td>
-                        <td>与一般 CSS Reset 保持一对致 API</td>
-                    </tr>
-                    <tr>
-                        <th rowspan="5">注意点</th>
-                        <td colspan="3">（1）中英文混排行高/行距</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">（2）上下标在 IE 中显示效果</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">（3）块/段落分割空白是否符合设计原则</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">（4）input 多余空间问题</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">（5）默认字体色彩，目前采用 <code>#333</code> 在各种浏览显示比较好</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div id="content" class="typo typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large "
+                 th:utext="${blog.content}">
             </div>
-
-
-
-
             <!--标签-->
             <div class="m-padded-lr-responsive">
-                <div class="ui basic teal left pointing label">java</div>
+                <div class="ui basic teal left pointing label" th:each="tag : ${blog.tags}" th:text="${tag.name}">java
+                </div>
             </div>
-
             <!--赞赏-->
-            <div class="ui center aligned basic segment">
-                <button id="payButton" class="ui orange circular  basic button">赞赏</button>
-            </div>
+            <div th:if="${blog.appreciation}">
+                <div class="ui center aligned basic segment">
+                    <button id="payButton" class="ui orange circular  basic button">赞赏</button>
+                </div>
+                <div class="ui payQ flowing popup  transition hidden  ">
+                    <div class="ui orange basic label animated flip ">
+                        <div class="ui images" style="font-size: inherit !important;">
+                            <div class="ui orange m-margin-tb" style="font-size: 15px !important;">“谢谢你请我吃糖果”</div>
+                            <div class="image ">
+                                <img src="../static/image/zfb.jpg" th:src="@{/image/zfb.jpg}" alt=""
+                                     class="ui rounded bordered image" style="width: 120px">
+                                <div>支付宝</div>
+                            </div>
+                            <div class="image">
+                                <img src="../static/image/vx.png" th:src="@{/image/vx.png}" alt=""
+                                     class="ui rounded bordered image" style="width: 120px">
+                                <div>微信</div>
+                            </div>
 
-            <div class="ui payQ flowing popup  transition hidden  ">
-                <div class="ui orange basic label animated flip ">
-                    <div class="ui images" style="font-size: inherit !important;">
-                        <div class="ui orange m-margin-tb" style="font-size: 15px !important;">“谢谢你请我吃糖果”</div>
-                        <div class="image ">
-                            <img src="../static/image/zfb.jpg" alt="" class="ui rounded bordered image" style="width: 120px">
-                            <div>支付宝</div>
                         </div>
-                        <div class="image">
-                            <img src="../static/image/vx.png" alt="" class="ui rounded bordered image" style="width: 120px">
-                            <div>微信</div>
-                        </div>
-
                     </div>
                 </div>
             </div>
 
-
-
         </div>
-        <div class="ui attached positive message">
+        <div class="ui attached positive message" th:if="${blog.shareStatement}">
             <!--博客信息-->
-            <div class="ui middle aligned grid">
+            <div class="ui middle aligned grid ">
                 <div class="eleven wide column">
                     <ui class="list">
-                        <li>作者：杨烨</li>
-                        <li>发表时间：2020-7-8</li>
+                        <li>作者：<span th:text="${blog.user.nickname}">杨烨</span>
+                            <a href="#" th:href="@{/about}" target="_blank">（联系作者）</a></li>
+                        <li>发表时间：<span th:text="${#dates.format(blog.createTime,'yyyy年MM月dd日 HH:mm')}">2020-7-8</span>
+                        </li>
                         <li>版权声明：转载备注出处</li>
                         <li>公众号转载：请在文章末尾添加作者公众号二维码</li>
                     </ui>
                 </div>
                 <div class="five wide column">
-                    <img src="../static/image/wechat.jpg" alt="" class="ui right floated rounded bordered image" style="width: 110px">
+                    <img src="../static/image/wechat.jpg" th:src="@{/image/wechat.jpg}" alt=""
+                         class="ui right floated rounded bordered image" style="width: 110px">
                 </div>
             </div>
         </div>
 
-        <div id="comment-container" class="ui bottom attached segment">
+        <div  class="ui bottom attached segment" th:if="${blog.commentabled}">
             <!--留言区域列表-->
-            <div  class="ui teal segment">
-                <div class="ui comments">
-                    <h3 class="ui dividing header">Comments</h3>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="https://picsum.photos/100/100">
-                        </a>
-                        <div class="content">
-                            <a class="author">Matt</a>
-                            <div class="metadata">
-                                <span class="date">今天下午 5:42</span>
-                            </div>
-                            <div class="text">太赞了！ </div>
-                            <div class="actions">
-                                <a class="reply">回复</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="https://picsum.photos/100/100">
-                        </a>
-                        <div class="content">
-                            <a class="author">Elliot Fu</a>
-                            <div class="metadata">
-                                <span class="date">昨天上午12:30</span>
-                            </div>
-                            <div class="text">
-                                <p>這對我的研究是非常有用.謝謝!</p>
-                            </div>
-                            <div class="actions">
-                                <a class="reply">回复</a>
-                            </div>
-                        </div>
-                        <div class="comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img src="https://picsum.photos/100/100">
-                                </a>
-                                <div class="content">
-                                    <a class="author">Jenny Hess</a>
-                                    <div class="metadata">
-                                        <span class="date">刚刚</span>
+            <!--/*-->
+            <div class="ui teal segment">
+                <div th:fragment="commentList">
+                    <div class="ui threaded comments" style="max-width: 100%">
+                        <h3 class="ui dividing header">评论</h3>
+                        <div class="comment" th:each="comment:${comments}">
+                            <a class="avatar">
+                                <img src="" th:src="@{${comment.avatar}}">
+                            </a>
+                            <div class="content">
+                                <a class="author">
+                                    <span th:text="${comment.nickname}"> Matt</span>
+                                    <div th:if="${comment.adminComment}"
+                                         class="ui m-text-thin mini orange basic left pointing label m-padded-mini">博主
                                     </div>
-                                    <div class="text">艾略特你永远是多么正确 :) </div>
-                                    <div class="actions">
-                                        <a class="reply">回复</a>
+                                </a>
+                                <div class="metadata">
+                                    <span class="date"
+                                          th:text="${#dates.format(comment.createTime,'yyyy年MM月dd日 HH:mm')}">今天下午 5:42</span>
+                                </div>
+                                <div class="text" th:text="${comment.content}">太赞了！</div>
+                                <div class="actions">
+                                    <a class="reply" data-commentid="1" data-commentnickname="Matt"
+                                       th:attr="data-commentid=${comment.id},data-commentnickname=${comment.nickname}"
+                                       onclick="reply(this)">回复</a>
+                                </div>
+                            </div>
+                            <!--第二层-->
+                            <div class="comments" th:if="${#arrays.length(comment.replyComments)}>0">
+                                <div class="comment" th:each="reply:${comment.replyComments}">
+                                    <a class="avatar">
+                                        <img src="" th:src="@{${reply.avatar}}">
+                                    </a>
+                                    <div class="content">
+                                        <a class="author">
+                                            <span th:text="${reply.nickname}">CodeHero</span>
+                                            <div th:if="${reply.adminComment}"
+                                                 class="ui mini m-text-thin orange basic left pointing label m-padded-mini">
+                                                博主
+                                            </div>
+                                            &nbsp;<span th:text="|@ ${reply.parentComment.nickname}|"
+                                                        class="m-teal">杨大头</span>
+                                        </a>
+                                        <div class="metadata">
+                                    <span class="date"
+                                          th:text="${#dates.format(reply.createTime,'yyyy年MM月dd日 HH:mm')}">今天下午 5:42</span>
+                                        </div>
+                                        <div class="text" th:text="${reply.content}">太赞了！</div>
+                                        <div class="actions">
+                                            <a class="reply" data-commentid="1" data-commentnickname="Matt"
+                                               th:attr="data-commentid=${reply.id},data-commentnickname=${reply.nickname}"
+                                               onclick="reply(this)">回复</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="https://picsum.photos/100/100">
-                        </a>
-                        <div class="content">
-                            <a class="author">Joe Henderson</a>
-                            <div class="metadata">
-                                <span class="date">5 天以前</span>
-                            </div>
-                            <div class="text">老兄，这太棒了。非常感谢。 </div>
-                            <div class="actions">
-                                <a class="reply">回复</a>
-                            </div>
-                        </div>
-                    </div>
-                    
                 </div>
             </div>
-
-            <div class="ui form">
+            <div id="comment-form" class="ui  form">
+                <input type="hidden" name="blog.id" th:value="${blog.id}">
+                <input type="hidden" name="parentComment.id" value="-1">
                 <div class="field ">
                     <textarea name="content" placeholder="(￣_,￣ ) 请输入评论信息......😁"></textarea>
                 </div>
@@ -593,37 +244,51 @@ h5,h6{font-size:1em;}
                     <div class="field  m-mobile-wide m-margin-bottom-small">
                         <div class="ui left icon input">
                             <i class="user icon"></i>
-                            <input type="text" name="nickname" placeholder="昵称">
+                            <input type="text" name="nickname"
+                                   th:value="${session.user}!=null ? ${session.user.nickname}" placeholder="昵称">
                         </div>
                     </div>
 
                     <div class="field m-mobile-wide  m-margin-bottom-small">
                         <div class="ui left icon input">
-                                <i class="mail icon"></i>
-                            <input type="text" name="email" placeholder="邮箱">
+                            <i class="mail icon"></i>
+                            <input type="text" name="email" th:value="${session.user}!=null ? ${session.user.email}"
+                                   placeholder="邮箱">
                         </div>
                     </div>
                     <div class="field  m-margin-bottom-small m-mobile-wide ">
-                        <button class="ui teal button m-mobile-wide "><i class="edit icon"></i>发布</button>
+                        <button type="button" id="comment-post-btn" class="ui teal button m-mobile-wide "><i
+                                class="edit icon"></i>发布
+                        </button>
                     </div>
                 </div>
             </div>
+            <!--*/-->
+            <!--PC版 畅言-->
+            <div  id="comment-yang" class="ui teal segment">
+                <!--PC打分版-->
+                <div id="SOHUCS" th:sid="${blog.id}"></div>
+
+            </div>
+
         </div>
     </div>
 </div>
 
 <div id="toolbar" style="display: none" class="m-padded m-fixed m-right-bottom m-opacity-mini ">
     <div class="ui vertical icon buttons ">
-        <button type="button" id="toc-menu"  class="ui teal button">目录</button>
-        <a  href="#comment-container" class="ui teal button">留言</a>
+        <button type="button" id="toc-menu" class="ui teal button">目录</button>
+        <a href="#comment-yang" class="ui teal button">留言</a>
         <button class="ui wechat icon  button" type="button"><i class="weixin icon "></i></button>
-        <div id="toTop-button" class="ui  button"><div class="center aligned"><i class="chevron up  icon"></i></div></div>
+        <div id="toTop-button" class="ui  button">
+            <div class="center aligned"><i class="chevron up  icon"></i></div>
+        </div>
     </div>
 </div>
 
 
-<div id="qrcode" class="ui flowing wechat-read  popup rounded transition hidden padded  " >
-<!--    <img src="./static/image/wechat.jpg" alt="" class="ui  rounded image" >-->
+<div id="qrcode" class="ui flowing wechat-read  popup rounded transition hidden padded  ">
+    <!--    <img src="./static/image/wechat.jpg" alt="" class="ui  rounded image" >-->
 </div>
 
 <div class="ui toc-container flowing popup  transition hidden " style="width: 250px;">
@@ -633,11 +298,10 @@ h5,h6{font-size:1em;}
 </div>
 
 
-
 <br/>
 <br/>
 <!--底部-->
-<footer  th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
     <div class="ui center aligned container">
         <div class="ui inverted divided stackable grid">
             <div class="three wide column">
@@ -674,7 +338,7 @@ h5,h6{font-size:1em;}
 
         <div class="ui inverted section divider"></div>
 
-        <p class="m-text-thin m-text-spaced m-opacity-tiny" >Copyright © 2019 - 2020 CodeHero Designed by CodeHero</p>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2019 - 2020 CodeHero Designed by CodeHero</p>
 
     </div>
 
@@ -682,32 +346,42 @@ h5,h6{font-size:1em;}
 
 
 <!--/*/<th:block th:replace="_fragments :: script" >/*/-->
-<script src="../static/lib/prism/prism.js"></script>
 <script src="../static/lib/tocbot/tocbot.min.js"></script>
 <script src="../static/lib/qrcode/qrcode.min.js"></script>
 <script src="http://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
 <script src="../static/lib/waypoints/jquery.waypoints.min.js"></script>
+<script src="../static/lib/prism/prism.js"></script>
 <!--/*/</th:block >/*/-->
-<script>
+<!--畅言-->
+<script charset="utf-8" type="text/javascript" src="https://cy-cdn.kuaizhan.com/upload/changyan.js" ></script>
+<script type="text/javascript">
+    window._config = { showScore: true };
+    window.changyan.api.config({
+        appid: 'cyuWdonqr',
+        conf: 'prod_41414f183a4cbcabcde57bf3e6f9c45f'
+    });
+</script>
+
+<script th:inline="javascript">
 
     $("#menuButton").click(function () {
         $(".m-item").toggleClass('m-mobile-hide')
     });
     $('#toTop-button').click(function () {
-        $(window).scrollTo(0,500);
+        $(window).scrollTo(0, 500);
     });
 
     $("#payButton").popup({
-       popup : $('.payQ.popup'),
-        on : 'click',
+        popup: $('.payQ.popup'),
+        on: 'click',
         position: 'bottom center'
     });
 
     $("#payButton").popup({
-        popup : $('.payQ.popup'),
-        on : 'click',
+        popup: $('.payQ.popup'),
+        on: 'click',
         position: 'bottom center'
     });
     tocbot.init({
@@ -722,39 +396,121 @@ h5,h6{font-size:1em;}
     });
 
     $("#toc-menu").popup({
-        popup : $('.toc-container.popup'),
-        on : 'click',
-        position: 'left center',
+        popup: $('.toc-container.popup'),
+        on: 'click',
+        position: 'top center',
 
     });
     $(".wechat").popup({
-        popup : $('.wechat-read.popup'),
-        on : 'hover',
+        popup: $('.wechat-read.popup'),
+        on: 'hover',
         position: 'left center'
     });
 
+    var serurl = /*[[#{blog.serurl}]]*/"http://codehero.club"
+    var url = /*[[@{/blog/{id}(id=${blog.id})}]]*/"";
     var qrcode = new QRCode("qrcode", {
-        text: "http://jindo.dev.naver.com/collie",
+        text: serurl + url,
         width: 110,
         height: 110,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
     });
 
 
     var waypoint = new Waypoint({
         element: document.getElementById('waypoint'),
-        handler: function(direction) {
-            if (direction=='down'){
+        handler: function (direction) {
+            if (direction == 'down') {
                 $('#toolbar').show(500);
-            }else {
+            } else {
                 $('#toolbar').hide(500);
             }
             console.log('Scrolled to waypoint!' + direction);
         }
     });
 
+    $('.ui.form').form({
+        fields: {
+            content: {
+                identifier: 'content',
+                rules: [{
+                    type: 'empty',
+                    prompt: '标题: 请输入评论内容'
+                }]
+            },
+            nickname: {
+                identifier: 'nickname',
+                rules: [{
+                    type: 'empty',
+                    prompt: '标题: 请选择博客分类'
+                }]
+            },
+            email: {
+                identifier: 'email',
+                rules: [{
+                    type: 'email',
+                    prompt: '标题: 请输入正确的邮箱地址'
+                }]
+            }
+        }
+    })
+
+    $(function () {
+        $("#comment-container").load(/*[[@{/comment/findByBlogId/{id}(id=${blog.id})}]]*/"comments/6");
+    });
+
+
+    $("#comment-post-btn").click(function () {
+        let bo = $('.ui.form').form('validate form');
+        if (bo) {
+            console.log('校验成功');
+            postData();
+        } else {
+            console.log('校验失败');
+        }
+    });
+
+    function postData() {
+        $("#comment-container").load(/*[[@{/comment/add}]]*/"", {
+            "parentComment.id": $("[name='parentComment.id']").val(),
+            "blog.id": $("[name='blog.id']").val(),
+            "nickname": $("[name='nickname']").val(),
+            "email": $("[name='email']").val(),
+            "content": $("[name='content']").val()
+        }, function (responseTxt, statusTxt, xhr) {
+            $(window).scrollTo($('#comment-container'), 500);
+            clearContent();
+        });
+    }
+
+    function clearContent() {
+        $("[name='content']").val('');
+        $("[name='parentComment.id']").val(-1);
+        $("[name='content']").attr("placeholder", "请输入评论信息...");
+    }
+
+
+    function reply(obj) {
+        var commentId = $(obj).data('commentid');
+        var commentNickname = $(obj).data('commentnickname');
+        $("[name='content']").attr("placeholder", "@" + commentNickname).focus();
+        $("[name='parentComment.id']").val(commentId);
+        $(window).scrollTo($('#comment-form'), 500);
+    }
+
+
+</script>
+
+
+<script type="text/javascript">
+    /*畅言*/
+    window._config = {showScore: true};
+    window.changyan.api.config({
+        appid: 'cyuWdonqr',
+        conf: 'prod_41414f183a4cbcabcde57bf3e6f9c45f'
+    });
 </script>
 </body>
 </html>

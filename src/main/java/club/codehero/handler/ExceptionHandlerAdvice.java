@@ -19,17 +19,17 @@ public class ExceptionHandlerAdvice {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView exceptionHandler(HttpServletRequest request,Exception e) throws Exception {
-        logger.error("Request URL : {},Exception {}",request.getRequestURL(),e);
+    public ModelAndView exceptionHandler(HttpServletRequest request, Exception e) throws Exception {
+        logger.error("Request URL : {},Exception {}", request.getRequestURL(), e);
 
 
-        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null){
+        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
             throw e;
         }
 
         ModelAndView mv = new ModelAndView();
-        mv.addObject("url",request.getRequestURL());
-        mv.addObject("exception",e);
+        mv.addObject("url", request.getRequestURL());
+        mv.addObject("exception", e);
         mv.setViewName("error/error");
         return mv;
     }

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: head(~{:: title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>标签管理</title>
+    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/my.css">
+
+
+</head>
+
+<body>
+
+<!--导航-->
+<nav th:replace="admin/_fragments :: menu(3)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted  secondary stackable menu ">
+            <h2 class="ui teal header item">后台管理</h2>
+            <a href="#" class=" m-item item m-mobile-hide"><i class="home icon"></i>博客</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i> 分类</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i> 标签</a>
+            <div class="right menu m-item m-mobile-hide">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img src="../../static/image/head.jpg" alt="" class="ui avatar image">
+                        CodeHero
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <a href="#" id="menuButton" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+
+</nav>
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/tag/add}" class="item">新增</a>
+            <a href="#" th:href="@{/admin/tag/findPage}" class="active teal item">列表</a>
+        </div>
+    </div>
+</div>
+
+<!--中间内容-->
+<div class="m-container-small m-padded-tb-big">
+    <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+        <i class="close icon"></i>
+        <div class="header">提示:</div>
+        <p th:text="${message}">恭喜,操作成功</p>
+    </div>
+    <div class="ui container teal">
+        <table class="ui compact  unstackable  teal table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>标签名称</th>
+                <th>操作</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tag,iterStat:${page.content}">
+                <td th:text="${iterStat.count}">1</td>
+                <td th:text="${tag.name}">分类名称</td>
+                <td>
+                    <a href="#" th:href="@{/admin/tag/findById/{id}/input(id=${tag.id})}"
+                       class="ui basic mini teal button">编辑</a>
+                    <a href="#" th:href="@{/admin/tag/delete/{id}/input(id=${tag.id})}"
+                       class="ui basic mini red button">删除</a>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="6">
+                    <div class="ui mini  pagination menu " th:if="${page.totalPages}>1">
+                        <a th:href="@{/admin/tag/findPage(page=${page.number}-1)}" th:unless="${page.first}"
+                           class="icon  item">上一页</a>
+                        <a th:href="@{/admin/tag/findPage(page=${page.number}+1)}" th:unless="${page.last}"
+                           class="icon  item">下一页</a>
+                    </div>
+                    <a href="#" th:href="@{/admin/tag/add}" class="ui mini right floated teal  basic button">新增</a>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<br/>
+<br/>
+<!--底部-->
+<footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="three wide column">
+                <div class="ui inverted header">
+                    <div class="item centered">
+                        <div class="ui centered card" style="width:120px">
+                            <img src="../../static/image/wechat.jpg" alt="" class="ui rounded image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">xxx</a>
+                    <a href="#" class="item">xxx</a>
+                    <a href="#" class="item">xxx</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Email: imissyou5201314@outlook.com</a>
+                    <a href="#" class="item">QQ: 1959368673</a>
+                </div>
+            </div>
+            <div class="six wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">杨烨</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini">
+                    很抱歉，只做了一些微小的事情
+                </p>
+            </div>
+        </div>
+
+        <div class="ui inverted section divider"></div>
+
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2019 - 2020 CodeHero Designed by CodeHero</p>
+
+    </div>
+
+</footer>
+
+
+<!--/*/<th:block th:replace="_fragments :: script" >/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block >/*/-->
+
+<script>
+    $("#menuButton").click(function () {
+        $(".m-item").toggleClass('m-mobile-hide')
+    });
+
+    $(".ui.dropdown").dropdown({
+        on: 'hover'
+    });
+
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        })
+
+
+</script>
+</body>
+</html>
