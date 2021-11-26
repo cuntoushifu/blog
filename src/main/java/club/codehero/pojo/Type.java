@@ -1,33 +1,34 @@
 package club.codehero.pojo;
 
-import lombok.Data;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Description
- * @Author YangYe
- * @Date 2020-07-10
+ * Created by limi on 2017/10/14.
  */
-@Data
-@NoArgsConstructor(force = true)
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "t_type")
 public class Type implements Serializable {
 
-
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "name")
+    @NotBlank(message = "分类名称不能为空")
     private String name;
 
-    @OneToMany(mappedBy = "type")//放弃外键维护
-    private List<Blog> blogs=new ArrayList<>();
+    @OneToMany(mappedBy = "type", fetch = FetchType.EAGER)
+    private List<Blog> blogs = new ArrayList<>();
+
+
 }

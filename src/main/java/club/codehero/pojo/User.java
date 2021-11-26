@@ -1,7 +1,8 @@
 package club.codehero.pojo;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,7 +16,8 @@ import java.util.Set;
  * @Date 2020-07-10
  */
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor(force = true)
 @Entity
 @Table(name = "t_user")
@@ -24,6 +26,7 @@ public class User implements Serializable {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -58,6 +61,6 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    private Set<Blog> blogs=new HashSet<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Blog> blogs = new HashSet<>();
 }

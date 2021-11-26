@@ -3,9 +3,9 @@
 <head th:replace="_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>首页</title>
+    <title>关于我</title>
     <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="../static/css/my.css">
 </head>
 <head>
@@ -14,6 +14,7 @@
     <title>关于我</title>
     <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/animate.css">
     <link rel="stylesheet" href="../static/css/my.css">
 
 
@@ -26,7 +27,7 @@
     <div class="ui container">
         <div class="ui inverted  secondary stackable menu ">
             <h2 class="ui teal header item">Code Hero</h2>
-            <a href="#" class="m-item item m-mobile-hide"><i class="home icon" ></i> 首页</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i> 首页</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i> 分类</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i> 标签</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="clone icon"></i> 归档</a>
@@ -50,52 +51,160 @@
 <div class=" m-padded-tb-big">
     <div class="ui container">
         <div class="ui stackable grid">
-            <div class="eleven wide column">
-                <div class="ui top attached segment">
-                    <img src="http://placekitten.com/850/600" alt="" class="ui rounded image">
+            <div class="twelve wide column animated zoomInUp">
+                <div class="ui top attached segment animated zoomInUp">
+                    <img  th:src="@{${img}}" src="https://cdn.jsdelivr.net/gh/zsq472521/mypic/blog/20200714121522.jpg"
+                         alt="" class="ui rounded image animated zoomInUp">
+                </div>
+
+                <div class="attached segment animated zoomInUp">
+                    <div class="ui bottom attached segment" >
+                        <!--留言区域列表-->
+                        <!--/*-->
+                        <div id="comment-container" class="ui teal segment">
+                            <div th:fragment="commentList">
+                                <div class="ui threaded comments" style="max-width: 100%">
+                                    <h3 class="ui dividing header">评论</h3>
+                                    <div class="comment" th:each="comment:${comments}">
+                                        <a class="avatar">
+                                            <img src="" th:src="@{${comment.avatar}}">
+                                        </a>
+                                        <div class="content">
+                                            <a class="author">
+                                                <span th:text="${comment.nickname}"> Matt</span>
+                                                <div th:if="${comment.adminComment}"
+                                                     class="ui m-text-thin mini orange basic left pointing label m-padded-mini">博主
+                                                </div>
+                                            </a>
+                                            <div class="metadata">
+                                    <span class="date"
+                                          th:text="${#dates.format(comment.createTime,'yyyy年MM月dd日 HH:mm')}">今天下午 5:42</span>
+                                            </div>
+                                            <div class="text" th:text="${comment.content}">太赞了！</div>
+                                            <div class="actions">
+                                                <a class="reply" data-commentid="1" data-commentnickname="Matt"
+                                                   th:attr="data-commentid=${comment.id},data-commentnickname=${comment.nickname}"
+                                                   onclick="reply(this)">回复</a>
+                                            </div>
+                                        </div>
+                                        <!--第二层-->
+                                        <div class="comments" th:if="${#arrays.length(comment.replyComments)}>0">
+                                            <div class="comment" th:each="reply:${comment.replyComments}">
+                                                <a class="avatar">
+                                                    <img src="" th:src="@{${reply.avatar}}">
+                                                </a>
+                                                <div class="content">
+                                                    <a class="author">
+                                                        <span th:text="${reply.nickname}">CodeHero</span>
+                                                        <div th:if="${reply.adminComment}"
+                                                             class="ui mini m-text-thin orange basic left pointing label m-padded-mini">
+                                                            博主
+                                                        </div>
+                                                        &nbsp;<span th:text="|@ ${reply.parentComment.nickname}|"
+                                                                    class="m-teal">杨大头</span>
+                                                    </a>
+                                                    <div class="metadata">
+                                    <span class="date"
+                                          th:text="${#dates.format(reply.createTime,'yyyy年MM月dd日 HH:mm')}">今天下午 5:42</span>
+                                                    </div>
+                                                    <div class="text" th:text="${reply.content}">太赞了！</div>
+                                                    <div class="actions">
+                                                        <a class="reply" data-commentid="1" data-commentnickname="Matt"
+                                                           th:attr="data-commentid=${reply.id},data-commentnickname=${reply.nickname}"
+                                                           onclick="reply(this)">回复</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="comment-form" class="ui  form">
+                            <input type="hidden" name="blog.id" th:value="${blog.id}">
+                            <input type="hidden" name="parentComment.id" value="-1">
+                            <div class="field ">
+                                <textarea name="content" placeholder="(￣_,￣ ) 请输入评论信息......😁"></textarea>
+                            </div>
+                            <div class="fields">
+                                <div class="field  m-mobile-wide m-margin-bottom-small">
+                                    <div class="ui left icon input">
+                                        <i class="user icon"></i>
+                                        <input type="text" name="nickname"
+                                               th:value="${session.user}!=null ? ${session.user.nickname}" placeholder="昵称">
+                                    </div>
+                                </div>
+
+                                <div class="field m-mobile-wide  m-margin-bottom-small">
+                                    <div class="ui left icon input">
+                                        <i class="mail icon"></i>
+                                        <input type="text" name="email" th:value="${session.user}!=null ? ${session.user.email}"
+                                               placeholder="邮箱">
+                                    </div>
+                                </div>
+                                <div class="field  m-margin-bottom-small m-mobile-wide ">
+                                    <button type="button" id="comment-post-btn" class="ui teal button m-mobile-wide "><i
+                                            class="edit icon"></i>发布
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--*/-->
+                        <!--PC版 畅言-->
+                        <div class="ui teal segment">
+                            <div class="ui threaded comments" style="max-width: 100%">
+                                <h3 class="ui dividing header">留言</h3>
+                                <div id="SOHUCS" sid="留言"></div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-            <div class="five wide column">
+            <div class="four wide column animated swing">
                 <div class="ui top attached teal center aligned segment">
                     <div class="ui orange header">关于我</div>
                 </div>
                 <div class="ui attached segment">
                     <p class="m-text">
-                        很惭愧<br/><br/>
-                        只做了一点微小的工作<br/>
-                        谢谢大家
+                        &nbsp;&nbsp;很惭愧，<br/>
+                        &nbsp;&nbsp;只做了一点微小的工作，<br/>
+                        &nbsp;&nbsp;谢谢大家......
                     </p>
                 </div>
                 <div class="ui attached  segment">
-                    <div class="ui orange basic label m-margin-tb-tiny">Go</div>
                     <div class="ui orange basic label m-margin-tb-tiny">Java</div>
-                    <div class="ui orange basic label m-margin-tb-tiny">后端</div>
                     <div class="ui orange basic label m-margin-tb-tiny">大数据</div>
                     <div class="ui orange basic label m-margin-tb-tiny">大学生</div>
                 </div>
                 <div class="ui attached segment">
-                    <div class="ui teal basic label m-margin-tb-tiny">Go</div>
-                    <div class="ui teal basic label m-margin-tb-tiny">Java</div>
-                    <div class="ui teal basic label m-margin-tb-tiny">Javascript</div>
-                    <div class="ui teal basic label m-margin-tb-tiny">Vue</div>
-                    <div class="ui teal basic label m-margin-tb-tiny">MySQL</div>
-                    <div class="ui teal basic label m-margin-tb-tiny">Go</div>
-                    <div class="ui teal basic label m-margin-tb-tiny">Java</div>
-                    <div class="ui teal basic label m-margin-tb-tiny">Javascript</div>
-                    <div class="ui teal basic label m-margin-tb-tiny">Vue</div>
-                    <div class="ui teal basic label m-margin-tb-tiny">MySQL</div>
+                    <div class="ui teal basic label m-margin-tb-tiny">肥宅</div>
+                    <div class="ui teal basic label m-margin-tb-tiny">海米</div>
+                    <div class="ui teal basic label m-margin-tb-tiny">技术发烧友</div>
+                    <div class="ui teal basic label m-margin-tb-tiny">熬夜冠军</div>
                 </div>
 
-                <div class="ui bottom attached segment">
-                    <a href="#" class="ui circular icon button"><i class="github icon"></i></a>
+                <div class="ui  bottom attached segment">
+                    <a href="https://github.com/zsq472521" class="ui circular icon button"><i
+                            class="github icon"></i></a>
                     <a href="#" class="ui wechat circular icon button"><i class="weixin icon"></i></a>
-                    <a href="#" class="ui qq circular icon button" data-content="1959368673" data-position="bottom center"><i class="qq icon"></i></a>
+                    <a href="#" class="ui qq circular icon button" data-content="1959368673"
+                       data-position="bottom center"><i class="qq icon"></i></a>
                     <a href="#" class="ui circular icon button"><i class="mail icon"></i></a>
 
                 </div>
 
-                <div class="ui wechat-qr flowing popup  transition hidden m-padded-tiny" >
-                    <img src="../static/image/wechat.jpg" alt="" class="ui rounded image" style="width: 120px">
+                <div class="ui wechat-qr flowing popup  transition hidden m-padded-tiny">
+                    <img src="../static/image/wechat.jpg" th:href="@{/image/wechat.jpg}" alt="" class="ui rounded image"
+                         style="width: 120px">
+                </div>
+
+                <div class="animated fadeInDownBig">
+                    <h4 class="ui horizontal divider animated fadeInDownBig header m-margin-top-larger">扫码关注我</h4>
+                    <div class="ui centered card animated fadeInDownBig" style="width:15em">
+                        <img src="../static/image/wechat.jpg" th:src="@{/image/wechat.jpg}" alt=""
+                             class="ui  rounded image">
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,7 +223,8 @@
                 <div class="ui inverted header">
                     <div class="item centered">
                         <div class="ui centered card" style="width:120px">
-                            <img src="../static/image/wechat.jpg" th:src="@{/image/wechat.jpg}" alt="" class="ui rounded image">
+                            <img src="../static/image/wechat.jpg" th:src="@{/image/wechat.jpg}" alt=""
+                                 class="ui rounded image">
                         </div>
                     </div>
                 </div>
@@ -167,9 +277,20 @@
     $(".qq").popup();
 
     $(".wechat").popup({
-        popup : $('.wechat-qr'),
-        on : 'hover',
+        popup: $('.wechat-qr'),
+        on: 'hover',
         position: 'bottom center'
+    });
+</script>
+<!--畅言-->
+<script charset="utf-8" type="text/javascript" src="https://cy-cdn.kuaizhan.com/upload/changyan.js"></script>
+<script charset="utf-8" type="text/javascript" src="https://cy-cdn.kuaizhan.com/upload/changyan.js"></script>
+<script type="text/javascript">
+    /*畅言*/
+    window._config = {showScore: true};
+    window.changyan.api.config({
+        appid: 'cyuWdonqr',
+        conf: 'prod_41414f183a4cbcabcde57bf3e6f9c45f'
     });
 </script>
 </body>
