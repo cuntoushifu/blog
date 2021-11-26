@@ -3,12 +3,12 @@
 ### 更新日志
 - 2020.7.78 ： 修复了前台标签页面和分页页面的分页
 - 2021.11.26： 添加了`sql`文件，配置了`SpringCache`（适合内存＞2G的服务器，在启动类取消`@EnableCaching`注释即可开启）
+> 开启`SpringCache`后需要去配置文件中配置`Redis`
 #### 介绍
 SpringBoot+Jpa+Thymeleaf构建的博客
 
 #### 软件架构
 SpringBoot2.3.1,thymeleaf3.0.2,semanticUi,Jquery,SpringDataJpa，mysql5.7
-
 
 #### 安装教程
 
